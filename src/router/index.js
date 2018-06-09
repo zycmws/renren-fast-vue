@@ -61,9 +61,8 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     http({
-      url: http.adornUrl('/sys/menu/nav'),
-      method: 'get',
-      params: http.adornParams()
+      url: '/sys/menu/nav',
+      method: 'get'
     }).then(({data}) => {
       if (data && data.code === 0) {
         fnAddDynamicMenuRoutes(data.menuList)

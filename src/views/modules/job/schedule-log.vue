@@ -110,13 +110,13 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/scheduleLog/list'),
+          url: '/sys/scheduleLog/list',
           method: 'get',
-          params: this.$http.adornParams({
+          params: {
             'page': this.pageIndex,
             'limit': this.pageSize,
             'jobId': this.dataForm.id
-          })
+          }
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
@@ -142,9 +142,8 @@
       // 失败信息
       showErrorInfo (id) {
         this.$http({
-          url: this.$http.adornUrl(`/sys/scheduleLog/info/${id}`),
-          method: 'get',
-          params: this.$http.adornParams()
+          url: `/sys/scheduleLog/info/${id}`,
+          method: 'get'
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.$alert(data.log.error)

@@ -95,12 +95,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/oss/list'),
+          url: '/sys/oss/list',
           method: 'get',
-          params: this.$http.adornParams({
+          params: {
             'page': this.pageIndex,
             'limit': this.pageSize
-          })
+          }
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
@@ -152,9 +152,9 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/oss/delete'),
+            url: '/sys/oss/delete',
             method: 'post',
-            data: this.$http.adornData(ids, false)
+            data: ids
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({

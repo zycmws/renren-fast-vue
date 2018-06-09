@@ -56,9 +56,8 @@
       init (id) {
         this.dataForm.id = id || 0
         this.$http({
-          url: this.$http.adornUrl('/sys/menu/list'),
-          method: 'get',
-          params: this.$http.adornParams()
+          url: '/sys/menu/list',
+          method: 'get'
         }).then(({data}) => {
           this.menuList = treeDataTranslate(data, 'menuId')
         }).then(() => {
@@ -70,9 +69,8 @@
         }).then(() => {
           if (this.dataForm.id) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/role/info/${this.dataForm.id}`),
-              method: 'get',
-              params: this.$http.adornParams()
+              url: `/sys/role/info/${this.dataForm.id}`,
+              method: 'get'
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.dataForm.roleName = data.role.roleName
@@ -92,14 +90,14 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/role/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: `/sys/role/${!this.dataForm.id ? 'save' : 'update'}`,
               method: 'post',
-              data: this.$http.adornData({
+              data: {
                 'roleId': this.dataForm.id || undefined,
                 'roleName': this.dataForm.roleName,
                 'remark': this.dataForm.remark,
                 'menuIdList': [].concat(this.$refs.menuListTree.getCheckedKeys(), [this.tempKey], this.$refs.menuListTree.getHalfCheckedKeys())
-              })
+              }
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$message({

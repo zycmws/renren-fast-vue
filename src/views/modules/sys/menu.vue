@@ -113,9 +113,8 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/menu/list'),
-          method: 'get',
-          params: this.$http.adornParams()
+          url: '/sys/menu/list',
+          method: 'get'
         }).then(({data}) => {
           this.dataList = treeDataTranslate(data, 'menuId')
           this.dataListLoading = false
@@ -136,9 +135,8 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/sys/menu/delete/${id}`),
-            method: 'post',
-            data: this.$http.adornData()
+            url: `/sys/menu/delete/${id}`,
+            method: 'post'
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({

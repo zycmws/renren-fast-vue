@@ -111,9 +111,8 @@
       init (id) {
         this.dataForm.id = id || 0
         this.$http({
-          url: this.$http.adornUrl('/sys/role/select'),
-          method: 'get',
-          params: this.$http.adornParams()
+          url: '/sys/role/select',
+          method: 'get'
         }).then(({data}) => {
           this.roleList = data && data.code === 0 ? data.list : []
         }).then(() => {
@@ -124,9 +123,8 @@
         }).then(() => {
           if (this.dataForm.id) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/user/info/${this.dataForm.id}`),
-              method: 'get',
-              params: this.$http.adornParams()
+              url: `/sys/user/info/${this.dataForm.id}`,
+              method: 'get'
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.dataForm.userName = data.user.username
@@ -145,9 +143,9 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/sys/user/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: `/sys/user/${!this.dataForm.id ? 'save' : 'update'}`,
               method: 'post',
-              data: this.$http.adornData({
+              data: {
                 'userId': this.dataForm.id || undefined,
                 'username': this.dataForm.userName,
                 'password': this.dataForm.password,
@@ -156,7 +154,7 @@
                 'mobile': this.dataForm.mobile,
                 'status': this.dataForm.status,
                 'roleIdList': this.dataForm.roleIdList
-              })
+              }
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$message({

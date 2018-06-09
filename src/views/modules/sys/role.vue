@@ -102,13 +102,13 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/role/list'),
+          url: '/sys/role/list',
           method: 'get',
-          params: this.$http.adornParams({
+          params: {
             'page': this.pageIndex,
             'limit': this.pageSize,
             'roleName': this.dataForm.roleName
-          })
+          }
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
@@ -153,9 +153,9 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/role/delete'),
+            url: '/sys/role/delete',
             method: 'post',
-            data: this.$http.adornData(ids, false)
+            data: ids
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({

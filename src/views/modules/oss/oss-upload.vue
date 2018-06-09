@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import { joinHttpUrl } from '@/utils'
   export default {
     data () {
       return {
@@ -32,7 +33,7 @@
     },
     methods: {
       init (id) {
-        this.url = this.$http.adornUrl(`/sys/oss/upload?token=${this.$cookie.get('token')}`)
+        this.url = joinHttpUrl(`/sys/oss/upload?token=${this.$cookie.get('token')}`)
         this.visible = true
       },
       // 上传之前

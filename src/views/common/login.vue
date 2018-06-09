@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { getUUID } from '@/utils'
+  import { joinHttpUrl, getUUID } from '@/utils'
   export default {
     data () {
       return {
@@ -70,14 +70,14 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl('/sys/login'),
+              url: '/sys/login',
               method: 'post',
-              data: this.$http.adornData({
+              data: {
                 'username': this.dataForm.userName,
                 'password': this.dataForm.password,
                 'uuid': this.dataForm.uuid,
                 'captcha': this.dataForm.captcha
-              })
+              }
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$cookie.set('token', data.token)
@@ -93,7 +93,7 @@
       // 获取验证码
       getCaptcha () {
         this.dataForm.uuid = getUUID()
-        this.captchaPath = this.$http.adornUrl(`/captcha.jpg?uuid=${this.dataForm.uuid}`)
+        this.captchaPath = joinHttpUrl(`/captcha.jpg?uuid=${this.dataForm.uuid}`)
       }
     }
   }

@@ -118,13 +118,13 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
+          url: '/sys/user/list',
           method: 'get',
-          params: this.$http.adornParams({
+          params: {
             'page': this.pageIndex,
             'limit': this.pageSize,
             'username': this.dataForm.userName
-          })
+          }
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
@@ -169,9 +169,9 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/user/delete'),
+            url: '/sys/user/delete',
             method: 'post',
-            data: this.$http.adornData(userIds, false)
+            data: userIds
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({

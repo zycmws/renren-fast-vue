@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
+import { isURL } from '@/utils/validate'
 import qs from 'qs'
 import merge from 'lodash/merge'
+import isPlainObject from 'lodash/isPlainObject'
 
 const http = axios.create({
   timeout: 1000 * 30,
@@ -17,6 +19,20 @@ const http = axios.create({
  */
 http.interceptors.request.use(config => {
   config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
+  // 地址处理
+  if (!isURL(config.url)) {
+    config.url = (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + config.url
+  }
+  // 数据处理
+  var defaults = {
+    't': new Date().getTime()
+  }
+  if (config.method === 'get') {
+    config.params = isPlainObject(config.params) ? merge(defaults, config.params) : config.params
+  } else if (config.method === 'post') {
+    config.data = isPlainObject(config.data) ? merge(defaults, config.data) : config.data
+    config.data = /^application\/json/.test(config.headers['Content-Type'] || config.headers.post['Content-Type']) ? JSON.stringify(config.data) : qs.stringify(config.data)
+  }
   return config
 }, error => {
   return Promise.reject(error)
@@ -43,7 +59,8 @@ http.interceptors.response.use(response => {
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
-  return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
+  // return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
+  return actionName
 }
 
 /**
@@ -52,10 +69,11 @@ http.adornUrl = (actionName) => {
  * @param {*} openDefultParams 是否开启默认参数?
  */
 http.adornParams = (params = {}, openDefultParams = true) => {
-  var defaults = {
-    't': new Date().getTime()
-  }
-  return openDefultParams ? merge(defaults, params) : params
+  // var defaults = {
+  //   't': new Date().getTime()
+  // }
+  // return openDefultParams ? merge(defaults, params) : params
+  return params
 }
 
 /**
@@ -67,11 +85,12 @@ http.adornParams = (params = {}, openDefultParams = true) => {
  *  form: 'application/x-www-form-urlencoded; charset=utf-8'
  */
 http.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
-  var defaults = {
-    't': new Date().getTime()
-  }
-  data = openDefultdata ? merge(defaults, data) : data
-  return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
+  // var defaults = {
+  //   't': new Date().getTime()
+  // }
+  // data = openDefultdata ? merge(defaults, data) : data
+  // return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
+  return data
 }
 
 export default http

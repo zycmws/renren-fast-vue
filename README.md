@@ -18,3 +18,9 @@
 
 ## 更新日志
 每个版本的详细更改都记录在[release notes](https://github.com/daxiongYang/renren-fast-vue/releases)中。
+
+## add by zyc
+1. other/vue.conf 部署到nginx上配置demo
+2. .npmrc文件为配置部分依赖的来源，不配置可能会导致install失败
+3. 
+

@@ -22,5 +22,5 @@
 ## add by zyc
 1. other/vue.conf 部署到nginx上配置demo
 2. .npmrc文件为配置部分依赖的来源，不配置可能会导致install失败
-3. 
+3. idea vuejs插件版本 182.3458.1
 

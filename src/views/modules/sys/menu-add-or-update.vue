@@ -131,7 +131,11 @@
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          this.menuList = treeDataTranslate(data.menuList, 'menuId')
+          if(data.code == '0'){
+            this.menuList = treeDataTranslate(data.menuList, 'menuId');
+          } else{
+            return Promise.reject(data.msg);
+          }
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {
@@ -159,6 +163,8 @@
               this.menuListTreeSetCurrentNode()
             })
           }
+        }).catch((err) =>{
+          this.$message.error(err);
         })
       },
       // 菜单树选中
